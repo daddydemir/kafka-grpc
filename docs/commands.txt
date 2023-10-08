@@ -1,0 +1,7 @@
+protoc --go_out=plugins=grpc:proto proto/image_analyze.proto
+
+docker run --name database -e POSTGRES_PASSWORD=password -d postgres
+
+docker run --name docker_postgres -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=docker library/postgres
+
+docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres

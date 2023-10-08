@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto;
+option go_package = ".;proto";
+
+message Request {
+  bytes image_data = 1;
+}
+
+message Response {
+  string message = 1;
+}
+
+service ImageAnalyzeService{
+  rpc UploadImage(Request) returns (Response){}
+}
