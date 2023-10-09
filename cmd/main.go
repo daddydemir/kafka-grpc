@@ -11,5 +11,4 @@ func main() {
 	database.GetConnect()
 	go service.Consume()
 	handler.Handler()
-
 }

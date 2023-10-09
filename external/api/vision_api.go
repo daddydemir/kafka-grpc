@@ -6,6 +6,7 @@ import (
 	"log"
 	"makromusic/config"
 	em "makromusic/external/models"
+	"makromusic/pkg/database"
 	"makromusic/pkg/models"
 	"net/http"
 )
@@ -35,7 +36,10 @@ func SendAnalyseRequest(image *models.Image) {
 	if err != nil {
 		log.Fatalf("Error unmarshalling response: %v", err)
 	}
-	log.Printf("Response: %v", response)
+	analyse := response.Response[0].FaceAnnotations[0].ToDBModel(image.ImageId)
+	log.Printf("Response: %v", analyse)
+	database.DB.Save(&analyse)
+	log.Printf("Analyse: %v", analyse)
 }
 
 func Send() {}

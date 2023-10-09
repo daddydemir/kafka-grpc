@@ -1,5 +1,8 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
 package proto;
 option go_package = ".;proto";
 
@@ -7,10 +10,50 @@ message Request {
   bytes image_data = 1;
 }
 
+message ImageDetailRequest {
+  string image_id = 1;
+}
+
+message ImageRequest {
+  string image_id = 1;
+  int32 joy = 2;
+  int32 sorrow = 3;
+  int32 anger = 4;
+  int32 surprise = 5;
+  int32 under_exposed = 6;
+  int32 blurred = 7;
+  int32 headwear = 8;
+  float confidence = 9;
+}
+
 message Response {
   string message = 1;
 }
 
+
+message ImageResponse {
+  string image_id = 1;
+  int32 joy = 2;
+  int32 sorrow = 3;
+  int32 anger = 4;
+  int32 surprise = 5;
+  int32 under_exposed = 6;
+  int32 blurred = 7;
+  int32 headwear = 8;
+  float confidence = 9;
+  google.protobuf.Timestamp create_date = 10;
+  google.protobuf.Timestamp update_date = 11;
+
+}
+
+message Images {
+  repeated ImageResponse images = 1;
+}
+
+
 service ImageAnalyzeService{
   rpc UploadImage(Request) returns (Response){}
+  rpc GetImageDetail(ImageDetailRequest) returns (ImageResponse) {}
+  rpc UpdateImageDetail(ImageRequest) returns (Response) {}
+  rpc GetImageFeed(google.protobuf.Empty) returns (Images) {}
 }
