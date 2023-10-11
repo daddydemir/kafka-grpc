@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"reflect"
 	"time"
 )
 
@@ -36,15 +37,18 @@ func SendAnalyseRequest(image *models.Image, service Service) {
 	if err != nil {
 		log.Fatalf("Error reading response body: %v", err)
 	}
-	var response = new(em.ResponseModel)
-	err = json.Unmarshal(body, response)
+	var response *em.ResponseModel
+	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Fatalf("Error unmarshalling response: %v", err)
 	}
-	analyse := response.Response[0].FaceAnnotations[0].ToDBModel(image.ImageId)
-	log.Printf("Response: %v", analyse)
-	analyse.CreateDate = time.Now()
-	service.SaveAnalyse(analyse)
-	service.UpdateImageStatus(image.ImageId.String(), "ANALYSED")
-	log.Printf("Analyse: %v", analyse)
+
+	if !reflect.ValueOf(response.Response[0]).IsZero() {
+		analyse := response.Response[0].FaceAnnotations[0].ToDBModel(image.ImageId)
+		log.Printf("Response: %v", analyse)
+		analyse.CreateDate = time.Now()
+		service.SaveAnalyse(analyse)
+		service.UpdateImageStatus(image.ImageId.String(), "ANALYSED")
+		log.Printf("Analyse: %v", analyse)
+	}
 }
