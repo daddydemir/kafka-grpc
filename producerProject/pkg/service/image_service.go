@@ -31,7 +31,7 @@ func SaveAndWriteQueue(imgs []byte) {
 	if err != nil {
 		log.Fatalln(`image can not write.`, err)
 	}
-	// save local file
+
 	img.Status = "WAITING"
 	database.DB.Save(&img)
 	AddQueue(img)

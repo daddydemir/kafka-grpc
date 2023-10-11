@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	conn, err := grpc.Dial("localhost:5001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
@@ -19,14 +18,11 @@ func main() {
 	client := proto.NewImageAnalyzeServiceClient(conn)
 
 	ctx := context.Background()
-	req := &proto.ImageDetailRequest{
-		ImageId: "0f536854-0ffa-46b9-aa1a-660c0b16d0ad",
-	}
 
-	resp, err := client.GetImageDetail(ctx, req)
+	resp, err := client.GetImageFeed(ctx, &proto.PaginationRequest{Limit: 2, Page: 2})
 	if err != nil {
-		log.Fatalf("Failed to get image detail: %v", err)
+		log.Fatalf("Failed to get image feed: %v", err)
 	}
 
-	fmt.Printf("Image: %v\n", resp)
+	fmt.Printf("Response: %v\n", resp)
 }

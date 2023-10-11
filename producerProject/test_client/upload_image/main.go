@@ -19,7 +19,7 @@ func main() {
 	client := proto.NewImageAnalyzeServiceClient(conn)
 
 	// C:\Users\demir\Downloads\mask.jpg
-	imageData, err := ioutil.ReadFile("C:\\Users\\demir\\Pictures\\chaos.jpg") // Yüklenecek resmin dosya yolunu ayarlayın.
+	imageData, err := ioutil.ReadFile("C:\\Users\\demir\\Pictures\\Camera Roll\\girl.jpg") // Yüklenecek resmin dosya yolunu ayarlayın.
 	if err != nil {
 		log.Fatalf("Failed to read image file: %v", err)
 	}

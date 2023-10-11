@@ -3,7 +3,6 @@ package handler
 import (
 	"context"
 	"errors"
-	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"log"
@@ -63,7 +62,23 @@ func (s ImageAnalyseServer) UpdateImageDetail(ctx context.Context, request *prot
 	return &proto.Response{Message: "Update image is success."}, nil
 }
 
-func (s ImageAnalyseServer) GetImageFeed(ctx context.Context, empty *empty.Empty) (*proto.Images, error) {
-	//todo
-	return nil, nil
+func (s ImageAnalyseServer) GetImageFeed(ctx context.Context, request *proto.PaginationRequest) (*proto.Images, error) {
+	var result []models.FacialAnalyse
+	var response []*proto.ImageResponse
+	result = service.GetPaginatedResult(int(request.Limit), int(request.Page))
+	for r := range result {
+		var img proto.ImageResponse
+		img.ImageId = result[r].ImageID.String()
+		img.Joy = int32(result[r].Joy)
+		img.Sorrow = int32(result[r].Sorrow)
+		img.Anger = int32(result[r].Anger)
+		img.Surprise = int32(result[r].Surprise)
+		img.UnderExposed = int32(result[r].UnderExposed)
+		img.Blurred = int32(result[r].Blurred)
+		img.Headwear = int32(result[r].Headwear)
+		img.Confidence = float32(result[r].Confidence)
+		img.CreateDate = timestamppb.New(result[r].CreateDate)
+		response = append(response, &img)
+	}
+	return &proto.Images{Images: response}, nil
 }
