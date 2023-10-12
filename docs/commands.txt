@@ -5,3 +5,26 @@ docker run --name database -e POSTGRES_PASSWORD=password -d postgres
 docker run --name docker_postgres -e POSTGRES_USER=docker -e POSTGRES_PASSWORD=docker -e POSTGRES_DB=docker library/postgres
 
 docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+
+
+KULLANILAN KOMUTLAR
+
+postgresql database container
+    - docker run --name database -e POSTGRES_PASSWORD=password -d postgres
+
+zookeeper container
+    - docker run --name zookeeper -p 2181:2181 zookeeper
+
+kafka container
+    - docker run --name kafka -p 9092:9092 -e KAFKA_ZOOKEEPER_CONNECT=localhost:2181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.8.148:9092/ -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 confluentinc/cp-kafka
+
+kafka-ui container
+    - docker run -p 8080:8080 -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+
+proto generate
+    - protoc --go_out=plugins=grpc:proto proto/image_analyze.proto
+
+Dockerfile generate container
+
+    - docker build -t producer .
+    - docker build -t consumer .
