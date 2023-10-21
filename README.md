@@ -1,6 +1,8 @@
 # kafka-grpc
 ----------------------
 
+> Projeyi açıkladığım video'ya [buradan](https://www.youtube.com/watch?v=cAh0nvFlGOs) ulaşabilrisiniz.
+> 
 
 ![image](https://github.com/daddydemir/kafka-grpc/assets/42716195/797d44a0-be0a-4037-b5e4-cc3ac303b946)
 
